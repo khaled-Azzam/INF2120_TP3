@@ -27,7 +27,8 @@ class Phrase {
 
     //Methodes d'instance
     private void afficherGrammes ( ) {
-        listGrammes.forEach ( nGramme -> afficher ( nGramme.getnIemeGramme () +
+        listGrammes.forEach ( nGramme -> afficher (
+                nGramme.getnIemeGramme () +
                 "-grammes de la phrase " + nPhrase + " : " +
                 nGramme.toString () ) );
     }
@@ -39,31 +40,32 @@ class Phrase {
     }
 
     private String afficherResultats ( Phrase phrase ) {
-        StringBuilder rappel = new StringBuilder ( );
-        StringBuilder precision = new StringBuilder ( );
-        StringBuilder fMesure = new StringBuilder ( );
-        StringBuilder correspondances = new StringBuilder ( );
+        String rappel = "";
+        String precision = "";
+        String fMesure = "";
+        String correspondances = "";
 
         for ( int i = 0; i < NB_GRAMMES; i ++) {
-            correspondances.append ( formate (
+            correspondances += ( formate (
                     listGrammes.get ( i ).getnCorrespndances ( ) ,
                     i , LETTRE_CORRESPONDANCES , phrase )
                     .replace ( ".0" , "" ) );
 
-            rappel.append ( formate ( listGrammes.get ( i ).getRappel ( ) ,
+            rappel += ( formate ( listGrammes.get ( i ).getRappel ( ) ,
                     i , LETTRE_RAPPEL , phrase ) );
 
-            precision.append ( formate ( listGrammes.get ( i ).getPrecision ( ) ,
-                    i , LETTRE_PRECISION , phrase ) );
+            precision += ( formate ( listGrammes.get ( i )
+                            .getPrecision ( ) , i , LETTRE_PRECISION ,
+                    phrase ) );
 
-            fMesure.append ( formate ( listGrammes.get ( i ).getfMesure ( ) ,
+            fMesure += ( formate ( listGrammes.get ( i ).getfMesure ( ) ,
                     i , LETTRE_F_MESURE , phrase ) );
         }
         return correspondances.toString ( ) + rappel + precision + fMesure;
     }
 
-    private String formate ( Function < NGramme, Double > operation , int index ,
-                             String lettre , Phrase phrase ) {
+    private String formate ( Function < NGramme, Double > operation ,
+                             int index , String lettre , Phrase phrase ) {
         return lettre + ( index + 1 ) + EGALE_A +
                 operation.apply ( phrase.listGrammes.get ( index ) ) +
                 ( ( index == NB_GRAMMES - 1 ) ? FIN_LIGNE :
