@@ -138,7 +138,6 @@ class NGramme {
     @Override
     public String toString () {
 
-        ArrayList < String > resultat;
         ArrayList < String > resultatFinal = new ArrayList <> ();
 
         for ( ArrayList < String > gramme : nGrammes ) {
@@ -153,7 +152,7 @@ class NGramme {
         return resultatFinal.toString ();
     }
 
-    ArrayList < String > reFormate ( ArrayList < String > gramme ) {
+    private ArrayList < String > reFormate ( ArrayList < String > gramme ) {
         ArrayList < String > resultat = new ArrayList <> ();
         for (String mot : gramme ) {
             resultat.add ( DOUBLE_GUILLEMETS + mot + DOUBLE_GUILLEMETS );
