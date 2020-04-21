@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.function.Function;
 
 /**
- * Classe modélisant une phrase
+ * Classe modélisant une phrase avec la possibilité de comparer la similarité
+ * avec une autre phrase.
  */
 class Phrase {
 
@@ -17,7 +18,6 @@ class Phrase {
     private final static String FIN_LIGNE = ".\n";
     private final static String GRAMMES_DE_LA_PHRASE = "-grammes de la phrase ";
     private final static String SEPARATEUR_RESULTATS = " : ";
-
 
     //Variables d'instance
     private ArrayList<NGramme> listGrammes = new ArrayList <> ( );
@@ -93,7 +93,7 @@ class Phrase {
             fMesure += ( formate ( listGrammes.get ( i ).getfMesure () ,
                     i , LETTRE_F_MESURE , phrase ) );
         }
-        return correspondances.toString ( ) + rappels + precisions + fMesure;
+        return correspondances + rappels + precisions + fMesure;
     }
 
     /**
