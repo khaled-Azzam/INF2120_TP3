@@ -27,7 +27,7 @@ class Phrase {
 
     //Methodes d'instance
     private void afficherGrammes ( ) {
-        listGrammes.forEach ( nGramme -> afficher ( nGramme.getnGr () +
+        listGrammes.forEach ( nGramme -> afficher ( nGramme.getnIemeGramme () +
                 "-grammes de la phrase " + nPhrase + " : " +
                 nGramme.toString () ) );
     }
