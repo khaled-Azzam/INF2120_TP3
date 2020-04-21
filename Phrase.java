@@ -5,7 +5,7 @@ import java.util.function.Function;
  * Classe modélisant une phrase avec la possibilité de comparer la similarité
  * avec une autre phrase.
  */
-class Phrase {
+public class Phrase {
 
     //Constantes
     private final static String LETTRE_CORRESPONDANCES = "c";
@@ -71,7 +71,7 @@ class Phrase {
      * @param phrase la phrase à comparer avec.
      * @return le String contenant les résultats des calcules (c, r, q, F)
      */
-    private String afficherResultats ( Phrase phrase ) {
+    public String afficherResultats ( Phrase phrase ) {
         String rappels = "";
         String precisions = "";
         String fMesure = "";
