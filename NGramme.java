@@ -11,6 +11,10 @@ import java.util.function.Function;
 class NGramme {
     //Constantes
     private final static String EXP_REG_SPLIT = "[^a-zA-ZÀ-ÿ]+";
+    private final static String SEPARATEUR_ELEMENTS = ", ";
+    private final static String PARANTHESE_OUVRANTE = "( ";
+    private final static String PARANTHESE_FERMANTE = " )";
+    private final static String DOUBLE_GUILLEMETS = "\"";
 
     //Variables d'instance
     private ArrayList < ArrayList < String > > nGrammes =
@@ -118,28 +122,43 @@ class NGramme {
     }
 
     /*Methodes :*/
+
+    /**
+     * Calcule le nombre de mots dans un n-grammes
+     * @return renvoie le nombre de mots dans un n-grammes
+     */
     private int nbrGrammes ( ) {
         return nGrammes.size ();
     }
 
+    /**
+     * Affiche le n-grammes sous forme de String
+     * @return la forme String du n-grammes
+     */
     @Override
-    public String toString ( ) {
+    public String toString () {
 
-        ArrayList<String> resultat;
-        ArrayList<String> resultatFinal = new ArrayList <> (  );
+        ArrayList < String > resultat;
+        ArrayList < String > resultatFinal = new ArrayList <> ();
 
-        for ( ArrayList<String> gramme : nGrammes ) {
-            resultat = new ArrayList <> ( );
-            for (String s : gramme ) {
-                resultat.add ( "\""+s+"\"" );
-            }
+        for ( ArrayList < String > gramme : nGrammes ) {
             resultatFinal.add (
-                    (gramme.size () > 1 ? "( " : "") +
-                            String.join ( ", ", resultat ) +
-                    (gramme.size () > 1 ? " )" : "")
+                    (gramme.size () > 1 ? PARANTHESE_OUVRANTE : "") +
+                            String.join (
+                                    SEPARATEUR_ELEMENTS,
+                                    reFormate ( gramme ) ) +
+                            (gramme.size () > 1 ? PARANTHESE_FERMANTE : "")
             );
         }
         return resultatFinal.toString ();
+    }
+
+    ArrayList < String > reFormate ( ArrayList < String > gramme ) {
+        ArrayList < String > resultat = new ArrayList <> ();
+        for (String mot : gramme ) {
+            resultat.add ( DOUBLE_GUILLEMETS + mot + DOUBLE_GUILLEMETS );
+        }
+        return resultat;
     }
 }
 
