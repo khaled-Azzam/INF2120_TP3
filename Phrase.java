@@ -1,82 +1,76 @@
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class Phrase {
-    private String phrase = "";
-    private ArrayList<NGramme> listGrammes = new ArrayList <> ( );
+class Phrase {
 
-    public Phrase (String phrase) {
-        this.phrase = phrase;
+    //Constantes
+    private final static String LETTRE_CORRESPONDANCES = "c";
+    private final static String LETTRE_RAPPEL = "r";
+    private final static String LETTRE_PRECISION = "q";
+    private final static String LETTRE_F_MESURE = "F";
+    private final static String SEPARATEUR_ELEMENTS = ", ";
+    private final static int NB_GRAMMES = 4;
+    private final static String EGALE_A = " = ";
+    private final static String FIN_LIGNE = ".\n";
+
+    private ArrayList<NGramme> listGrammes = new ArrayList <> ( );
+    private int nPhrase;
+
+    //Constructeur
+    Phrase ( String phrase , int nPhrase ) {
+        //Variables d'instance
+        this.nPhrase = nPhrase;
         for (int i = 0; i < 4; i ++) {
             listGrammes.add ( new NGramme ( phrase , i + 1 ) );
         }
     }
 
-    public void compareA (Phrase phrase) {
-        afficherC ( phrase );
-        afficherR ( phrase );
-        afficherQ ( phrase );
-        afficherF ( phrase );
+    //Methodes d'instance
+    private void afficherGrammes ( ) {
+        listGrammes.forEach ( nGramme -> afficher ( nGramme.getnGr () +
+                "-grammes de la phrase " + nPhrase + " : " +
+                nGramme.toString () ) );
     }
 
-    public void afficherC ( Phrase phrase ) {
-        String resultat = "";
-        for ( int i = 0; i < 4; i ++) {
-            resultat += "c" + ( i + 1 ) + " = " +
-                    listGrammes.get ( i ).
-                            compareA ( phrase.listGrammes.get ( i ) );
-            if ( i == 3 )
-                resultat += ".";
-            else
-                resultat += ", ";
+    void comparerA ( Phrase phrase ) {
+        afficherGrammes ();
+        phrase.afficherGrammes ();
+        afficher ( afficherResultats ( phrase ));
+    }
+
+    private String afficherResultats ( Phrase phrase ) {
+        StringBuilder rappel = new StringBuilder ( );
+        StringBuilder precision = new StringBuilder ( );
+        StringBuilder fMesure = new StringBuilder ( );
+        StringBuilder correspondances = new StringBuilder ( );
+
+        for ( int i = 0; i < NB_GRAMMES; i ++) {
+            correspondances.append ( formate (
+                    listGrammes.get ( i ).getnCorrespndances ( ) ,
+                    i , LETTRE_CORRESPONDANCES , phrase )
+                    .replace ( ".0" , "" ) );
+
+            rappel.append ( formate ( listGrammes.get ( i ).getRappel ( ) ,
+                    i , LETTRE_RAPPEL , phrase ) );
+
+            precision.append ( formate ( listGrammes.get ( i ).getPrecision ( ) ,
+                    i , LETTRE_PRECISION , phrase ) );
+
+            fMesure.append ( formate ( listGrammes.get ( i ).getfMesure ( ) ,
+                    i , LETTRE_F_MESURE , phrase ) );
         }
-        afficher ( resultat );
+        return correspondances.toString ( ) + rappel + precision + fMesure;
     }
 
-    public void afficherR ( Phrase phrase ) {
-        String resultat = "";
-        for ( int i = 0; i < 4; i ++) {
-            resultat += "r" + ( i + 1 ) + " = " +
-                    listGrammes.get ( i ).
-                            rappel ( phrase.listGrammes.get ( i ) );
-            if ( i == 3 )
-                resultat += ".";
-            else
-                resultat += ", ";
-        }
-        afficher ( resultat );
+    private String formate ( Function < NGramme, Double > operation , int index ,
+                             String lettre , Phrase phrase ) {
+        return lettre + ( index + 1 ) + EGALE_A +
+                operation.apply ( phrase.listGrammes.get ( index ) ) +
+                ( ( index == NB_GRAMMES - 1 ) ? FIN_LIGNE :
+                        SEPARATEUR_ELEMENTS);
     }
 
-    public void afficherQ ( Phrase phrase ) {
-        String resultat = "";
-        for ( int i = 0; i < 4; i ++) {
-            resultat += "q" + ( i + 1 ) + " = " +
-                    listGrammes.get ( i ).
-                            precision ( phrase.listGrammes.get ( i ) );
-            if ( i == 3 )
-                resultat += ".";
-            else
-                resultat += ", ";
-        }
-        afficher ( resultat );
-    }
-
-    public void afficherF ( Phrase phrase ) {
-        String resultat = "";
-        for ( int i = 0; i < 4; i ++) {
-            resultat += "F" + ( i + 1 ) + " = " +
-                    listGrammes.get ( i ).
-                            fMesure ( phrase.listGrammes.get ( i ) );
-            if ( i == 3 )
-                resultat += ".";
-            else
-                resultat += ", ";
-        }
-        afficher ( resultat );
-    }
-
-    public void afficher (String chaineAAfficher) {
+    private void afficher ( String chaineAAfficher ) {
         System.out.println ( chaineAAfficher );
     }
-
 }
